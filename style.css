@@ -1,0 +1,16 @@
+ #container{
+     margin: auto;
+    height:1000px;
+    width:980px;
+    outline: 1px solid black;
+    position: relative;
+}
+#spaceman{
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    outline: 1px solid black;
+    background:red;
+    left: 0;
+    top: 0;
+}
