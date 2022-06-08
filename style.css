@@ -1,7 +1,7 @@
  #container{
-     margin: auto;
+    margin: auto;
     height:1000px;
-    width:980px;
+    width:1000px;
     outline: 1px solid black;
     position: relative;
 }
@@ -11,6 +11,5 @@
     width: 50px;
     outline: 1px solid black;
     background:red;
-    left: 0;
-    top: 0;
+    
 }
