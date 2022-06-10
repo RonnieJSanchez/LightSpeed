@@ -1,14 +1,14 @@
-var spaceman = document.getElementById('spaceman');
+let spaceman = document.getElementById('spaceman');
 
-var rocks = document.getElementById('rocks');
-var spacemanLeft= 500;
-var spacemanTop= 800;
+let rocks = document.getElementById('rocks');
+let spacemanLeft= 500;
+let spacemanTop= 800;
 
 document.onkeydown = anim;
 function anim(e){
     //move right
    if(e.keyCode==39){
-        spacemanLeft +=10;
+        spacemanLeft += 10;
         spaceman.style.left = spacemanLeft + 'px';
          if(spacemanLeft >=950){
             spacemanLeft -= 10;
@@ -41,42 +41,40 @@ function anim(e){
    }
 } 
 /*--------------------------------------------------------------------------*/
-function preload() {
-    asteroid = loadimage ('\Asteroids\asteroid1.png');
-}
-var asteroidArray = new Array();
+
+let asteroidArray = [];
 
 asteroidArray[0] = new Image();
-asteroidArray[0].src = 'assets\Asteroids\asteroid1.png';
+asteroidArray[0].src = 'assets/Asteroids/asteroid1.png';
 
 asteroidArray[1] = new Image();
-asteroidArray[1].src = 'assets\Asteroids\asteroid2.png';
+asteroidArray[1].src = 'assets/Asteroids/asteroid2.png';
 
 asteroidArray[2] = new Image();
-asteroidArray[2].src = 'assets\Asteroids\asteroid3.png';
+asteroidArray[2].src = 'assets/Asteroids/asteroid3.png';
 
 asteroidArray[3] = new Image();
-asteroidArray[3].src = 'assets\Asteroids\asteroid4.png';
+asteroidArray[3].src = 'assets/Asteroids/asteroid4.png';
 
 asteroidArray[4] = new Image();
-asteroidArray[4].src = 'assets\Asteroids\asteroid5.png';
+asteroidArray[4].src = 'assets/Asteroids/asteroid5.png';
 
 asteroidArray[5] = new Image();
-asteroidArray[5].src = 'assets\Asteroids\asteroid6.png';
+asteroidArray[5].src = 'assets/Asteroids/asteroid6.png';
 
 asteroidArray[6] = new Image();
-asteroidArray[6].src = 'assets\Asteroids\asteroid7.png';
+asteroidArray[6].src = 'assets/Asteroids/asteroid7.png';
 
 asteroidArray[7] = new Image();
-asteroidArray[7].src = 'assets\Asteroids\asteroid8.png';
+asteroidArray[7].src = 'assets/Asteroids/asteroid8.png';
 
 /*--------------------------------------------------------------------------*/
 
 function nextImage(element)
 {
-    var img = document.getElementById(element);
+    let img = document.getElementById(element);
 
-    for(var i = 0; i < asteroidArray.length;i++)
+    for(let i = 0; i < asteroidArray.length;i++)
     {
         if(asteroidArray[i].src == img.src) // << check this
         {
@@ -91,26 +89,26 @@ function nextImage(element)
 }
 /*--------------------------------------------------------------------------*/
 // get a refrence to the canvas and its context
-var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
+let canvas = document.getElementById("canvas");
+let ctx = canvas.getContext("2d");
 
 // newly spawned objects start at Y=25
-var spawnLineY = 25;
+let spawnLineY = 25;
 
 // spawn a new object every 1500ms
-var spawnRate = 250;
+let spawnRate = 250;
 
 // set how fast the objects will fall
-var spawnRateOfDescent = 1.00;
+let spawnRateOfDescent = 1.00;
 
 // when was the last object spawned
-var lastSpawn = -1;
+let lastSpawn = -1;
 
 // this array holds all spawned object
-var objects = [];
+let objects = [];
 
 // save the starting time (used to calc elapsed time)
-var startTime = Date.now();
+let startTime = Date.now();
 
 // start animating
 animate();
@@ -119,7 +117,7 @@ animate();
 function spawnRandomObject() {
 
     // select a random type for this new object
-    var t;
+    let t;
 
     if (Math.random() < 0.50) {
         t = "red";
@@ -128,7 +126,7 @@ function spawnRandomObject() {
     }
 
     // create the new object
-    var object = {
+    let object = {
         // set this objects type
         type: t,
         // set x randomly but at least 15px off the canvas edges
@@ -144,7 +142,7 @@ function spawnRandomObject() {
 function animate() {
 
     // get the elapsed time
-    var time = Date.now();
+    let time = Date.now();
 
     // see if its time to spawn a new object
     if (time > (lastSpawn + spawnRate)) {
@@ -166,8 +164,8 @@ function animate() {
     ctx.stroke();
 
     // move each object down the canvas
-    for (var i = 0; i < objects.length; i++) {
-        var object = objects[i];
+    for (let i = 0; i < objects.length; i++) {
+        let object = objects[i];
         object.y += spawnRateOfDescent;
         ctx.beginPath();
         ctx.arc(object.x, object.y, 8, 0, Math.PI * 2);

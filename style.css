@@ -1,8 +1,10 @@
 #canvas {
   margin: auto;
+  height: 1000px;
+  width:1000px;
   outline: 1px solid black;
   position: relative;
-  background-color: ivory;
+  background: url('assets/Backdrop/SpaceBackdrop.png');
 }
 #spaceman {
   position: absolute;
