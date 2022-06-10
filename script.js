@@ -40,7 +40,56 @@ function anim(e){
 
    }
 } 
+/*--------------------------------------------------------------------------*/
+function preload() {
+    asteroid = loadimage ('\Asteroids\asteroid1.png');
+}
+var asteroidArray = new Array();
 
+asteroidArray[0] = new Image();
+asteroidArray[0].src = 'assets\Asteroids\asteroid1.png';
+
+asteroidArray[1] = new Image();
+asteroidArray[1].src = 'assets\Asteroids\asteroid2.png';
+
+asteroidArray[2] = new Image();
+asteroidArray[2].src = 'assets\Asteroids\asteroid3.png';
+
+asteroidArray[3] = new Image();
+asteroidArray[3].src = 'assets\Asteroids\asteroid4.png';
+
+asteroidArray[4] = new Image();
+asteroidArray[4].src = 'assets\Asteroids\asteroid5.png';
+
+asteroidArray[5] = new Image();
+asteroidArray[5].src = 'assets\Asteroids\asteroid6.png';
+
+asteroidArray[6] = new Image();
+asteroidArray[6].src = 'assets\Asteroids\asteroid7.png';
+
+asteroidArray[7] = new Image();
+asteroidArray[7].src = 'assets\Asteroids\asteroid8.png';
+
+/*--------------------------------------------------------------------------*/
+
+function nextImage(element)
+{
+    var img = document.getElementById(element);
+
+    for(var i = 0; i < asteroidArray.length;i++)
+    {
+        if(asteroidArray[i].src == img.src) // << check this
+        {
+            if(i === asteroidArray.length){
+                document.getElementById(element).src = asteroidArray[0].src;
+                break;
+            }
+            document.getElementById(element).src = asteroidArray[i+1].src;
+            break;
+        }
+    }
+}
+/*--------------------------------------------------------------------------*/
 // get a refrence to the canvas and its context
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
@@ -49,10 +98,10 @@ var ctx = canvas.getContext("2d");
 var spawnLineY = 25;
 
 // spawn a new object every 1500ms
-var spawnRate = 500;
+var spawnRate = 250;
 
 // set how fast the objects will fall
-var spawnRateOfDescent = 0.75;
+var spawnRateOfDescent = 1.00;
 
 // when was the last object spawned
 var lastSpawn = -1;
