@@ -4,6 +4,10 @@ let rocks = document.getElementById('rocks');
 let spacemanLeft= 500;
 let spacemanTop= 800;
 
+let start_time = Date.now();
+
+let pauseSpeedup = 0;
+
 document.onkeydown = anim;
 function anim(e){
     //move right
@@ -70,6 +74,35 @@ asteroidArray[7].src = 'assets/Asteroids/asteroid8.png';
 
 /*--------------------------------------------------------------------------*/
 
+let RareItemsArray = [];
+
+RareItemsArray[0] = new Image();
+RareItemsArray[0].src = 'assets/RareItems/moon1.png';
+
+RareItemsArray[1] = new Image();
+RareItemsArray[1].src = 'assets/RareItems/moon2.png';
+
+RareItemsArray[2] = new Image();
+RareItemsArray[2].src = 'assets/RareItems/orb1.png';
+
+RareItemsArray[3] = new Image();
+RareItemsArray[3].src = 'assets/RareItems/orb2.png';
+
+RareItemsArray[4] = new Image();
+RareItemsArray[4].src = 'assets/RareItems/orb3.png';
+
+RareItemsArray[5] = new Image();
+RareItemsArray[5].src = 'assets/RareItems/planet1.png';
+
+RareItemsArray[6] = new Image();
+RareItemsArray[6].src = 'assets/RareItems/planet2.png';
+
+RareItemsArray[7] = new Image();
+RareItemsArray[7].src = 'assets/RareItems/planet3.png';
+
+RareItemsArray[8] = new Image();
+RareItemsArray[8].src = 'assets/RareItems/planet4.png';
+/*--------------------------------------------------------------------------*/
 function nextImage(element)
 {
     let img = document.getElementById(element);
@@ -93,10 +126,10 @@ let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 
 // newly spawned objects start at Y=25
-let spawnLineY = 25;
+let spawnLineY = -30;
 
 // spawn a new object every 1500ms
-let spawnRate = 250;
+let spawnRate = 200;
 
 // set how fast the objects will fall
 let spawnRateOfDescent = 1.00;
@@ -114,25 +147,34 @@ let startTime = Date.now();
 animate();
 
 
+function randomIntFromInterval(min, max) { // min and max included 
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+
+
 function spawnRandomObject() {
-
-    // select a random type for this new object
-    let t;
-
-    if (Math.random() < 0.50) {
-        t = "red";
-    } else {
-        t = "blue";
+    let t = ""
+    if (randomIntFromInterval(1,100) > 5) {
+        // select a random type for this new object
+         t =  asteroidArray [randomIntFromInterval(0, asteroidArray.length-1)]
+    }else{
+         t =  RareItemsArray [randomIntFromInterval(0, RareItemsArray.length-1)]
     }
-
+    
+// console.log(t.src)
     // create the new object
     let object = {
         // set this objects type
-        type: t,
+        image: t,
         // set x randomly but at least 15px off the canvas edges
         x: Math.random() * (canvas.width - 30) + 15,
         // set y to start on the line where objects are spawned
         y: spawnLineY,
+
+        AngleDegrees: randomIntFromInterval(0, 360),
+        
+        RotationSpeed: randomIntFromInterval(0, 1)
     }
 
     // add the new object to the objects[] array
@@ -143,6 +185,23 @@ function animate() {
 
     // get the elapsed time
     let time = Date.now();
+
+
+    var time_elapsed = time - start_time; //in ms
+    // strip the ms
+    time_elapsed /= 1000;  34
+
+    // get seconds 
+    var seconds = Math.round(time_elapsed);
+    console.log(seconds + " seconds");
+
+    if(pauseSpeedup == 0 & seconds % 2 == 0 & seconds  != 0){
+        pauseSpeedup = 1
+        spawnRateOfDescent=Math.min(spawnRateOfDescent*1.05,8)
+    }else if(seconds % 2 != 0){
+        pauseSpeedup = 0
+    }
+
 
     // see if its time to spawn a new object
     if (time > (lastSpawn + spawnRate)) {
@@ -156,7 +215,7 @@ function animate() {
     // clear the canvas so all objects can be 
     // redrawn in new positions
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+    
     // draw the line where new objects are spawned
     ctx.beginPath();
     ctx.moveTo(0, spawnLineY);
@@ -164,13 +223,24 @@ function animate() {
     ctx.stroke();
 
     // move each object down the canvas
-    for (let i = 0; i < objects.length; i++) {
+    for (let i = 1; i < objects.length; i++) {
         let object = objects[i];
+        
+ 
+       // console.log(object.AngleDegrees)
+        object.AngleDegrees = (object.AngleDegrees + object.RotationSpeed) % 360
+       // console.log(object.AngleDegrees)
         object.y += spawnRateOfDescent;
         ctx.beginPath();
-        ctx.arc(object.x, object.y, 8, 0, Math.PI * 2);
+
+       
+       // ctx.arc(object.x, object.y, 8, 0, Math.PI * 2);
+        ctx.drawImage(object.image, object.x, object.y)
+
+        //ctx.rotate(object.AngleDegrees * Math.PI / 180)
+        
         ctx.closePath();
-        ctx.fillStyle = object.type;
+        //ctx.fillStyle = object.type;
         ctx.fill();
     }
 
