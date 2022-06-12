@@ -1,9 +1,6 @@
 let spaceman = document.getElementById('spaceman');
-
-let rocks = document.getElementById('rocks');
-let spacemanLeft= 500;
-let spacemanTop= 800;
-
+let spacemanLeft= 1008;
+let spacemanTop= 840;
 let start_time = Date.now();
 
 let pauseSpeedup = 0;
@@ -14,7 +11,7 @@ function anim(e){
    if(e.keyCode==39){
         spacemanLeft += 10;
         spaceman.style.left = spacemanLeft + 'px';
-         if(spacemanLeft >=950){
+         if(spacemanLeft >=1480){
             spacemanLeft -= 10;
         }
     }
@@ -22,7 +19,7 @@ function anim(e){
    else if(e.keyCode==37){
         spacemanLeft -= 10;
        spaceman.style.left = spacemanLeft + 'px';
-        if(spacemanLeft <=0){
+        if(spacemanLeft <=532){
             spacemanLeft += 10;
         }
    }
@@ -30,7 +27,7 @@ function anim(e){
     else if(e.keyCode==38){
         spacemanTop -= 10;
         spaceman.style.top = spacemanTop + 'px';
-         if(spacemanTop < 10){
+         if(spacemanTop < 30){
             spacemanTop -= -10;
         }
    }
@@ -38,7 +35,7 @@ function anim(e){
    else if(e.keyCode==40){
         spacemanTop += 10;
         spaceman.style.top = spacemanTop + 'px';
-        if(spacemanTop >= 950){
+        if(spacemanTop >= 940){
             spacemanTop += -10;
         }
 
@@ -121,6 +118,27 @@ function nextImage(element)
     }
 }
 /*--------------------------------------------------------------------------*/
+
+var minutesLabel = document.getElementById("minutes");
+var secondsLabel = document.getElementById("seconds");
+var totalSeconds = 0;
+setInterval(setTime, 1000);
+
+function setTime() {
+  ++totalSeconds;
+  secondsLabel.innerHTML = pad(totalSeconds % 60);
+  minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+}
+
+function pad(val) {
+  var valString = val + "";
+  if (valString.length < 2) {
+    return "0" + valString;
+  } else {
+    return valString;
+  }
+}
+/*--------------------------------------------------------------------------*/
 // get a refrence to the canvas and its context
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
@@ -151,8 +169,6 @@ function randomIntFromInterval(min, max) { // min and max included
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-
-
 function spawnRandomObject() {
     let t = ""
     if (randomIntFromInterval(1,100) > 5) {
@@ -176,7 +192,6 @@ function spawnRandomObject() {
         
         RotationSpeed: randomIntFromInterval(0, 1)
     }
-
     // add the new object to the objects[] array
     objects.push(object);
 }
@@ -202,7 +217,6 @@ function animate() {
         pauseSpeedup = 0
     }
 
-
     // see if its time to spawn a new object
     if (time > (lastSpawn + spawnRate)) {
         lastSpawn = time;
@@ -212,36 +226,19 @@ function animate() {
     // request another animation frame
     requestAnimationFrame(animate);
 
-    // clear the canvas so all objects can be 
-    // redrawn in new positions
+    // clear the canvas so all objects can be redrawn in new positions
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // draw the line where new objects are spawned
-    ctx.beginPath();
-    ctx.moveTo(0, spawnLineY);
-    ctx.lineTo(canvas.width, spawnLineY);
-    ctx.stroke();
-
     // move each object down the canvas
     for (let i = 1; i < objects.length; i++) {
         let object = objects[i];
         
- 
        // console.log(object.AngleDegrees)
         object.AngleDegrees = (object.AngleDegrees + object.RotationSpeed) % 360
        // console.log(object.AngleDegrees)
         object.y += spawnRateOfDescent;
-        ctx.beginPath();
-
-       
-       // ctx.arc(object.x, object.y, 8, 0, Math.PI * 2);
-        ctx.drawImage(object.image, object.x, object.y)
-
-        //ctx.rotate(object.AngleDegrees * Math.PI / 180)
-        
-        ctx.closePath();
-        //ctx.fillStyle = object.type;
-        ctx.fill();
+        //ctx.beginPath();
+        ctx.drawImage(object.image, object.x, object.y)    
     }
 
 }

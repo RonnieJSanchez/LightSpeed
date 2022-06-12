@@ -1,7 +1,5 @@
 #canvas {
   margin: auto;
-  height: 1000px;
-  width:1000px;
   outline: 1px solid black;
   position: relative;
   background: url('assets/Backdrop/SpaceBackdrop.png');
@@ -13,4 +11,15 @@
   background: url('assets/SpaceMan/MiddlemanGif.gif');
   background-repeat: no-repeat;
   background-size: cover;
+
+}
+*{
+  background-color: black;
+} 
+#clock{
+  color:white;
+  display:flex;
+  justify-content: center;
+  font-family: 'Press Start 2P', cursive;
+
 }
