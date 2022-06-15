@@ -1,6 +1,9 @@
-let spaceman = document.getElementById('spaceman');
-let spacemanLeft= 1008;
-let spacemanTop= 840;
+//let spaceman = document.getElementById('spaceman');
+let spacemanX= 500;
+let spacemanY= 750;
+let isHit= false;
+//spaceman.style.left=spacemanX + 'px';
+//spaceman.style.top=spacemanY + 'px';
 let start_time = Date.now();
 
 let pauseSpeedup = 0;
@@ -9,38 +12,44 @@ document.onkeydown = anim;
 function anim(e){
     //move right
    if(e.keyCode==39){
-        spacemanLeft += 10;
-        spaceman.style.left = spacemanLeft + 'px';
-         if(spacemanLeft >=1480){
-            spacemanLeft -= 10;
+        spacemanX += 15;
+        //spaceman.style.left = spacemanX + 'px';
+         if(spacemanX >=960){
+            spacemanX -= 10;
         }
     }
     //move left
    else if(e.keyCode==37){
-        spacemanLeft -= 10;
-       spaceman.style.left = spacemanLeft + 'px';
-        if(spacemanLeft <=532){
-            spacemanLeft += 10;
+        spacemanX -= 15;
+       //spaceman.style.left = spacemanX + 'px';
+        if(spacemanX <=5){
+            spacemanX += 10;
         }
    }
    //move up
     else if(e.keyCode==38){
-        spacemanTop -= 10;
-        spaceman.style.top = spacemanTop + 'px';
-         if(spacemanTop < 30){
-            spacemanTop -= -10;
+        spacemanY -= 15;
+        //spaceman.style.top = spacemanY + 'px';
+         if(spacemanY < 20){
+            spacemanY -= -10;
         }
    }
    //move down
    else if(e.keyCode==40){
-        spacemanTop += 10;
-        spaceman.style.top = spacemanTop + 'px';
-        if(spacemanTop >= 940){
-            spacemanTop += -10;
+        spacemanY += 15;
+        //spaceman.style.top = spacemanY + 'px';
+        if(spacemanY >= 940){
+            spacemanY += -10;
         }
 
    }
+          //ctx.drawImage(spaceman, spacemanX, spacemanY)    
 } 
+/*--------------------------------------------------------------------------*/
+let spaceman = new Image();
+
+spaceman.src = 'assets/SpaceMan/MiddlemanGif.gif';
+
 /*--------------------------------------------------------------------------*/
 
 let asteroidArray = [];
@@ -197,7 +206,9 @@ function spawnRandomObject() {
 }
 
 function animate() {
-
+    if(isHit){
+        return;
+    }
     // get the elapsed time
     let time = Date.now();
 
@@ -208,7 +219,7 @@ function animate() {
 
     // get seconds 
     var seconds = Math.round(time_elapsed);
-    console.log(seconds + " seconds");
+    //console.log(seconds + " seconds");
 
     if(pauseSpeedup == 0 & seconds % 2 == 0 & seconds  != 0){
         pauseSpeedup = 1
@@ -234,11 +245,23 @@ function animate() {
         let object = objects[i];
         
        // console.log(object.AngleDegrees)
-        object.AngleDegrees = (object.AngleDegrees + object.RotationSpeed) % 360
+       // object.AngleDegrees = (object.AngleDegrees + object.RotationSpeed) % 360
        // console.log(object.AngleDegrees)
         object.y += spawnRateOfDescent;
+        //console.log("asteroid position is Y:" + object.y + " X: " + object.x)
+          //   console.log("spaceman position is Y:" + spacemanX + " X: " + spacemanY)
         //ctx.beginPath();
-        ctx.drawImage(object.image, object.x, object.y)    
+        ctx.drawImage(object.image, object.x, object.y)   
+        ctx.drawImage(spaceman, spacemanX, spacemanY, 40, 60) 
+        if (Math.abs (object.x - spacemanX) <15 && Math.abs (object.y - spacemanY) <15) {
+            console.log("HIT");
+            isHit=true;
+           
+        }
     }
 
 }
+
+
+/*--------------------------------------------------------------------------*/
+

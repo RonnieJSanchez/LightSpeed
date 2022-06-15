@@ -4,7 +4,7 @@
   position: relative;
   background: url('assets/Backdrop/SpaceBackdrop.png');
 }
-#spaceman {
+/*#spaceman {
   position: absolute;
   height: 60px;
   width: 40px;
@@ -12,7 +12,7 @@
   background-repeat: no-repeat;
   background-size: cover;
 
-}
+}*/
 *{
   background-color: black;
 } 
@@ -23,3 +23,8 @@
   font-family: 'Press Start 2P', cursive;
 
 }
+.world{
+  overflow: hidden;
+  position:relative;
+}
+
